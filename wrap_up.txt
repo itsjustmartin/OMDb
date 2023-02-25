@@ -1,24 +1,13 @@
-We’ve implemented the models, client, and functions to tie them together. At this point it would be trivial to write the views and templates. We’re not going to do that as they should be straightforward:
-A search view will accept a search query, then call search_and_save() with it. Remember that we can call search_and_save() repeatedly as it has the logic for checking if the period is elapsed before re-running the search. Then after the database has been populated, we can search it with the search term to find matching movies.
-A detail view that takes the IMDb ID as part of the URL. It will fetch the Movie object from the database using this ID, returning a 404 if one is not found. Then, it will call fill_movie_details() with the Movie object. We can safely call this multiple times as the data will not be re-populated if is_full_record is already true.
- A template can be rendered containing the movie data.
-Results
-
-We should note that we're assuming our movie search will return the same results as OMDb's. For example, if OMDb uses a full-text search but we use a simple contains query then the records might not match. This is something that you would need to test with trial and error to make sure the results were consistent.
-The purpose of this section is not to be a tutorial on integrating OMDb with Django. Rather, an overview of the steps/thought process of designing an API integration with Django.
-
-The important takeaway points are:
-API keys can be fetched from Django settings. Consider using a SecretValue field to retrieve them from the environment, similar to the SECRET_KEY setting.
-Your REST client should have a single method that’s called to make requests. This means you have only one place to implement authentication and HTTP error handling, rather than littering your code with them.
-REST clients should not be directly tied to Django. Allow your REST client to be instantiated without knowing about any Django settings.
-The client should also not be responsible for inserting any data into the Django database.
-
-It is OK to create a helper class or function that will instantiate the REST client from the Django settings.
-Don’t return the response body directly from your client (the decoded JSON response dictionary, for example). Instead, use a transformation function or class to turn it into a standard format. This means if the API starts returning different data you only have one place to update the parser.
-Check what data comes back for a list or detail response. Your models may need to keep track if they are a full response or not. This could be just a flag, or a datetime if the model data needs to be refreshed periodically.
-Consider some protection against users causing repeated API calls for the same data.
-(This point is not REST API specific:) Having helper functions outside of your view code means you can use the functionality in management commands as well, without having to write duplicate code.
-
-Finally it’s important to mention that you need to follow the licensing rules of the API.
- The terms of use may not allow you to make a local copy of your data. Fortunately for us the data in OMDb is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License. This means we are allowed to copy, redistribute, remix, transform, etc, the data, as long as the source is attributed and we use it in a non-commercial way.
-  If we were building a UI for our site, we’d make sure to have attribution and follow these terms.
+This section was intended as a quick intro to using third-party libraries for API interaction,
+ and how to store user-specific authentication data. We took a few shortcuts by using built-in Django features, like the admin authentication system,
+  and no UI for users to add their own token. To summarize:
+Third-party libraries should usually be preferred, if they exist for the service you’re working with. 
+ There can be risks that they become out of date, so check that they appear to be actively maintained before using.
+If you’re using a service for authentication with Django Allauth, as well as its API, check if the tokens that Django Allauth stores can be used for API authentication too.
+A Profile (or other) class can be created to store tokens for a user. Don’t store their username and password for the remote service.
+And to summarize the things that we didn’t do, but should, if we were building this into a real site:
+Set up Django authentication instead of requiring the user to log in via Django admin.
+Create a GUI for the user to set up their token(s).
+Add models to represent the remote objects we’re using. For example, our own Repository model, that would allow for local caching.
+Caching to prevent multiple requests for the same user within a short period of time.
+We saw how to set up these features in the previous section, and in earlier courses.
