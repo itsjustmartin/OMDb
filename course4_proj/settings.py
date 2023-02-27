@@ -56,6 +56,10 @@ class Dev(Configuration):
 # It’s fine for development, but when going into production you would want to make sure it was stored securely and not in your codebase.
     OMDB_KEY = "3c10351a"
 
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    
+    ADMINS = [("martin", "martin@example.com")]
+
     MIDDLEWARE = [
         'django.middleware.security.SecurityMiddleware',
         'django.contrib.sessions.middleware.SessionMiddleware',
