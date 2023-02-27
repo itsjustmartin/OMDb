@@ -78,4 +78,16 @@ def search_and_save(search):
 
     search_term.save()
 
+# Improvements to the Implementation
+# this is a bit of a quick-and-dirty implementation to demonstrate Celery. Here are some things to consider if using these techniques in production:
+# Use JavaScript to check if the results are ready on the waiting page.
+#  fetch() can be called multiple times and then a redirect can be performed in the browser,
+#   meaning the user doesn’t have to manually refresh the page.
 
+# When a search result is initiated, store the task ID in the database for the result (for example, in a new field on the SearchTerm model).
+#  If another user performs a search while one is already active, we could reuse the same task ID to prevent starting another query for the same results.
+
+# The UUID is exposed to the user. In our case this is not a big security concern,
+#  and UUIDs are nearly impossible to guess, so the chance of being able to guess another user’s search based on UUID is fairly low.
+#   However it’s a better practice to not allow fetching of arbitrary tasks based on ID without check that they belong to the logged in user.
+#    This is something that you’d need to store in the database or session yourself.

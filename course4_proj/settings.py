@@ -51,6 +51,7 @@ class Dev(Configuration):
         'django.contrib.staticfiles',
         'movies',
         'gh',
+        'django_celery_results',
     ]
 # It’s fine for development, but when going into production you would want to make sure it was stored securely and not in your codebase.
     OMDB_KEY = "3c10351a"
@@ -95,6 +96,9 @@ class Dev(Configuration):
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
+
+    CELERY_RESULT_BACKEND = "django-db"
+    CELERY_BROKER_URL = "redis://localhost:6379/0"
 
 
     # Password validation

@@ -1,1 +1,11 @@
 PyGithub
+
+# first get Redis installed in your local environment 
+# sudo apt install -y redis
+# try it with comman :
+# redis-cli ping 
+# You should get a PONG result
+
+celery
+django-celery-results
+redis
