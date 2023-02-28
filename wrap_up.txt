@@ -1,13 +1,4 @@
-This section was intended as a quick intro to using third-party libraries for API interaction,
- and how to store user-specific authentication data. We took a few shortcuts by using built-in Django features, like the admin authentication system,
-  and no UI for users to add their own token. To summarize:
-Third-party libraries should usually be preferred, if they exist for the service you’re working with. 
- There can be risks that they become out of date, so check that they appear to be actively maintained before using.
-If you’re using a service for authentication with Django Allauth, as well as its API, check if the tokens that Django Allauth stores can be used for API authentication too.
-A Profile (or other) class can be created to store tokens for a user. Don’t store their username and password for the remote service.
-And to summarize the things that we didn’t do, but should, if we were building this into a real site:
-Set up Django authentication instead of requiring the user to log in via Django admin.
-Create a GUI for the user to set up their token(s).
-Add models to represent the remote objects we’re using. For example, our own Repository model, that would allow for local caching.
-Caching to prevent multiple requests for the same user within a short period of time.
-We saw how to set up these features in the previous section, and in earlier courses.
+As you’ve seen, Celery beat is a flexible way of scheduling tasks with Celery,
+ and its Django integration makes it easy to dynamically create, modify and disable tasks with a GUI.
+  As with the Celery worker, if you want the beat process to run automatically at system startup you will need to use something
+   like supervisord, systemd or init to execute it.

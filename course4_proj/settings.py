@@ -52,6 +52,7 @@ class Dev(Configuration):
         'movies',
         'gh',
         'django_celery_results',
+        'django_celery_beat',
     ]
 # It’s fine for development, but when going into production you would want to make sure it was stored securely and not in your codebase.
     OMDB_KEY = "3c10351a"

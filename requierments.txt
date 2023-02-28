@@ -9,3 +9,5 @@ PyGithub
 celery
 django-celery-results
 redis
+# to solve error populate() isn't reentrant try this version
+django-celery-beat==2.4.0
